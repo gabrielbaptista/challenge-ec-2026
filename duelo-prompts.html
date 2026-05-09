@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Duelo de Prompts | Situações-base</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-soft: #eef3ff;
+      --primary: #1d4ed8;
+      --primary-dark: #1e3a8a;
+      --accent: #f97316;
+      --text: #172033;
+      --muted: #5f6f89;
+      --border: #d9e2f3;
+      --shadow: 0 18px 45px rgba(23, 32, 51, 0.12);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top left, #dbeafe 0, transparent 32%), var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 64px 0 36px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.25rem, 5vw, 4.6rem);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      margin-bottom: 20px;
+    }
+
+    .lead {
+      font-size: clamp(1.05rem, 2vw, 1.32rem);
+      color: var(--muted);
+      max-width: 720px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 13px 20px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .button-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(29, 78, 216, 0.25);
+    }
+
+    .button-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .button-secondary {
+      background: var(--surface);
+      border-color: var(--border);
+      color: var(--primary-dark);
+    }
+
+    .button-secondary:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px;
+    }
+
+    .hero-card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 14px;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    .info-list strong {
+      color: var(--text);
+    }
+
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(16px);
+      background: rgba(245, 247, 251, 0.86);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .round-nav {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 14px 0;
+    }
+
+    .round-nav a {
+      white-space: nowrap;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .round-nav a:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .section {
+      padding: 42px 0;
+    }
+
+    .section-title {
+      margin-bottom: 22px;
+    }
+
+    .section-title span {
+      color: var(--accent);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.82rem;
+    }
+
+    .section-title h2 {
+      margin-top: 6px;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      letter-spacing: -0.03em;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .mini-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .mini-card h3 {
+      font-size: 1.02rem;
+      margin-bottom: 8px;
+    }
+
+    .mini-card p {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .round {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(23, 32, 51, 0.08);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .round-header {
+      padding: 26px;
+      background: linear-gradient(135deg, #eff6ff, #ffffff 62%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .round-kicker {
+      color: var(--primary);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.78rem;
+      margin-bottom: 5px;
+    }
+
+    .round-header h2 {
+      font-size: clamp(1.55rem, 3vw, 2.1rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .round-header p {
+      color: var(--muted);
+      max-width: 820px;
+    }
+
+    .round-body {
+      padding: 26px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .content-block {
+      border-left: 4px solid var(--primary);
+      padding-left: 16px;
+    }
+
+    .content-block h3 {
+      margin-bottom: 10px;
+      font-size: 1.12rem;
+    }
+
+    .content-block p,
+    .content-block li {
+      color: var(--muted);
+    }
+
+    .situation-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .situation-box h3 {
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+    }
+
+    .situation-box p {
+      margin-bottom: 12px;
+      color: var(--muted);
+    }
+
+    .situation-box ul {
+      margin-left: 20px;
+      color: var(--muted);
+    }
+
+    .quote {
+      background: #ffffff;
+      border: 1px dashed #b8c7e6;
+      border-radius: 14px;
+      padding: 16px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .mission {
+      background: linear-gradient(135deg, #fff7ed, #ffffff);
+      border: 1px solid #fed7aa;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .mission h3 {
+      color: #9a3412;
+      margin-bottom: 8px;
+    }
+
+    .mission p {
+      color: #7c2d12;
+    }
+
+    .copy-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 14px;
+    }
+
+    .copy-btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--primary-dark);
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .footer {
+      padding: 40px 0 56px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      .nav-wrap,
+      .hero-actions,
+      .copy-row {
+        display: none;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      .round,
+      .hero-card,
+      .mini-card {
+        box-shadow: none;
+      }
+
+      .section {
+        padding: 20px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="badge">Challenge Day • FESA • 2026.1</div>
+        <h1>Duelo de Prompts</h1>
+        <p class="lead">
+          Consulte aqui as situações-base de cada rodada. Use o contexto apresentado para criar, testar e entregar o melhor prompt da sua equipe.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#rodadas">Ver situações-base</a>
+          <a class="button button-secondary" href="https://forms.cloud.microsoft/r/Ku8MW1eaMs" target="_blank" rel="noopener noreferrer">Submeter respostas</a>
+          <button class="button button-secondary" onclick="window.print()">Imprimir / salvar em PDF</button>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <h2>Como usar esta página</h2>
+        <div class="info-list">
+          <p><strong>1.</strong> Leia a situação-base da rodada apresentada pela organização.</p>
+          <p><strong>2.</strong> Crie um prompt com papel, contexto, tarefa, restrições e formato de saída.</p>
+          <p><strong>3.</strong> Teste o prompt na ferramenta de IA permitida.</p>
+          <p><strong>4.</strong> Entregue o prompt final, o melhor output, a IA utilizada e uma justificativa curta.</p>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <nav class="nav-wrap" aria-label="Navegação das rodadas">
+    <div class="container round-nav">
+      <a href="#rodada-1">Rodada 1</a>
+      <a href="#rodada-2">Rodada 2</a>
+      <a href="#rodada-3">Rodada 3</a>
+      <a href="#rodada-4">Rodada 4</a>
+      <a href="#rodada-5">Rodada 5</a>
+      <a href="#desempate">Desempate</a>
+      <a href="#checklist">Checklist</a>
+      <a href="https://forms.cloud.microsoft/r/Ku8MW1eaMs" target="_blank" rel="noopener noreferrer">Submeter respostas</a>
+    </div>
+  </nav>
+
+  <main id="rodadas">
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <span>Antes de começar</span>
+          <h2>O que será avaliado</h2>
+        </div>
+        <div class="cards-grid">
+          <div class="mini-card">
+            <h3>Aderência</h3>
+            <p>O prompt e o output precisam responder ao objetivo da rodada e respeitar as restrições apresentadas.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Clareza</h3>
+            <p>A resposta gerada deve ser compreensível, bem organizada e adequada ao público ou problema proposto.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Técnica</h3>
+            <p>O prompt deve demonstrar boa estrutura: papel, contexto, tarefa, restrições, formato e critérios de qualidade.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="rodada-1">
+      <div class="container">
+        <article class="round">
+          <div class="round-header">
+            <div class="round-kicker">Rodada 1</div>
+            <h2>Síntese Executiva Relâmpago</h2>
+            <p>Transforme informações dispersas em uma síntese executiva clara, objetiva e útil para tomada de decisão.</p>
+          </div>
+          <div class="round-body">
+            <div class="content-block">
+              <h3>Objetivo</h3>
+              <p>Criar um prompt capaz de orientar a IA a resumir um cenário operacional complexo, destacando problemas, riscos e prioridade recomendada.</p>
+            </div>
+
+            <div class="situation-box" id="copy-rodada-1">
+              <h3>Situação-base</h3>
+              <p>Uma empresa de médio porte está enfrentando queda de produtividade nos últimos meses. A liderança recebeu relatos de diferentes áreas, mas as informações estão dispersas e ainda não há clareza sobre quais problemas devem ser priorizados.</p>
+              <div class="quote">
+                <p>Nas últimas semanas, várias entregas atrasaram porque as equipes não tinham clareza sobre prioridades. Alguns colaboradores relataram excesso de reuniões e pouca objetividade nas decisões. A área comercial prometeu prazos que a equipe técnica considera difíceis de cumprir. Houve retrabalho em projetos porque os requisitos mudaram durante a execução. Também foram identificadas falhas de comunicação entre atendimento, produto e operação.</p>
+                <p>Parte da equipe afirma que há ferramentas demais sendo usadas ao mesmo tempo, dificultando o acompanhamento das tarefas. Alguns gestores dizem que os indicadores existem, mas não são acompanhados de forma regular. Há percepção de sobrecarga em pessoas-chave, enquanto outras equipes ficam aguardando direcionamento.</p>
+                <p>A diretoria quer entender rapidamente o cenário para decidir quais ações devem ser tomadas primeiro.</p>
+              </div>
+              <div class="copy-row">
+                <button class="copy-btn" onclick="copySection('copy-rodada-1')">Copiar situação-base</button>
+              </div>
+            </div>
+
+            <div class="mission">
+              <h3>Missão da equipe</h3>
+              <p>Criar um prompt que faça a IA produzir uma síntese executiva curta, destacando o cenário, os principais problemas, os riscos e a prioridade recomendada.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="rodada-2">
+      <div class="container">
+        <article class="round">
+          <div class="round-header">
+            <div class="round-kicker">Rodada 2</div>
+            <h2>Persona e Comunicação</h2>
+            <p>Adapte uma mensagem para um público específico, considerando tom, linguagem, intenção e clareza.</p>
+          </div>
+          <div class="round-body">
+            <div class="content-block">
+              <h3>Objetivo</h3>
+              <p>Criar um prompt capaz de gerar uma comunicação institucional clara, respeitosa e motivadora para estudantes.</p>
+            </div>
+
+            <div class="situation-box" id="copy-rodada-2">
+              <h3>Situação-base</h3>
+              <p>A Faculdade irá realizar uma atividade especial chamada <strong>Duelo de Prompts</strong>, aberta a estudantes de todos os cursos. A organização precisa comunicar aos alunos uma mudança importante: o local da atividade foi alterado por questões operacionais.</p>
+              <p>A atividade continua no mesmo dia e horário, mas será realizada em outro espaço dentro da instituição. A comunicação precisa ser clara, cordial e motivadora, evitando confusão entre os participantes.</p>
+              <div class="quote">
+                <ul>
+                  <li><strong>Evento:</strong> Duelo de Prompts</li>
+                  <li><strong>Público:</strong> estudantes inscritos e interessados em participar</li>
+                  <li><strong>Mudança:</strong> alteração do local da atividade</li>
+                  <li><strong>Motivo:</strong> melhor acomodação das equipes e disponibilidade de infraestrutura</li>
+                  <li><strong>O que permanece igual:</strong> data, horário de início e regras gerais</li>
+                  <li><strong>Tom desejado:</strong> cordial, objetivo e motivador</li>
+                  <li><strong>Ação esperada:</strong> os alunos devem conferir o novo local antes do início da atividade e chegar com antecedência</li>
+                  <li><strong>Atenção:</strong> a mensagem não deve gerar sensação de desorganização nem parecer excessivamente informal.</li>
+                </ul>
+              </div>
+              <div class="copy-row">
+                <button class="copy-btn" onclick="copySection('copy-rodada-2')">Copiar situação-base</button>
+              </div>
+            </div>
+
+            <div class="mission">
+              <h3>Missão da equipe</h3>
+              <p>Criar um prompt que faça a IA gerar uma mensagem institucional aos estudantes, comunicando a mudança de local de forma clara, respeitosa e motivadora.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="rodada-3">
+      <div class="container">
+        <article class="round">
+          <div class="round-header">
+            <div class="round-kicker">Rodada 3</div>
+            <h2>Plano de Ação sob Restrições</h2>
+            <p>Gere um plano de ação simples, viável e priorizado diante de restrições reais de prazo, equipe e recursos.</p>
+          </div>
+          <div class="round-body">
+            <div class="content-block">
+              <h3>Objetivo</h3>
+              <p>Criar um prompt que oriente a IA a propor ações práticas, prioridades, responsáveis, riscos e mitigações.</p>
+            </div>
+
+            <div class="situation-box" id="copy-rodada-3">
+              <h3>Situação-base</h3>
+              <p>Uma equipe de organização recebeu a responsabilidade de preparar uma atividade acadêmica em apenas <strong>5 dias úteis</strong>. A atividade terá participação de estudantes de diferentes cursos e precisa acontecer de forma bem estruturada.</p>
+              <p>No entanto, existem algumas restrições importantes:</p>
+              <div class="quote">
+                <ul>
+                  <li>A equipe organizadora tem apenas 4 pessoas disponíveis.</li>
+                  <li>O orçamento é muito baixo.</li>
+                  <li>O evento terá até 40 participantes.</li>
+                  <li>Será necessário organizar inscrições, comunicação, espaço físico, critérios de avaliação e apoio no dia da atividade.</li>
+                  <li>Parte dos participantes pode não estar familiarizada com o tema da atividade.</li>
+                  <li>A infraestrutura depende da disponibilidade de laboratórios ou salas com acesso à internet.</li>
+                  <li>A divulgação precisa ser rápida, mas sem gerar informações desencontradas.</li>
+                  <li>A coordenação pediu um plano objetivo, com prioridades claras e riscos mapeados.</li>
+                </ul>
+              </div>
+              <div class="copy-row">
+                <button class="copy-btn" onclick="copySection('copy-rodada-3')">Copiar situação-base</button>
+              </div>
+            </div>
+
+            <div class="mission">
+              <h3>Missão da equipe</h3>
+              <p>Criar um prompt que faça a IA produzir um plano de ação viável, considerando prazo curto, equipe pequena, baixo orçamento, riscos e prioridades.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="rodada-4">
+      <div class="container">
+        <article class="round">
+          <div class="round-header">
+            <div class="round-kicker">Rodada 4</div>
+            <h2>Crítica e Melhoria de Resposta</h2>
+            <p>Avalie uma resposta inicial gerada por IA e produza uma versão melhorada, mais clara e aderente ao objetivo.</p>
+          </div>
+          <div class="round-body">
+            <div class="content-block">
+              <h3>Objetivo</h3>
+              <p>Criar um prompt que faça a IA atuar como revisora crítica, identificando falhas concretas e propondo uma versão aprimorada.</p>
+            </div>
+
+            <div class="situation-box" id="copy-rodada-4">
+              <h3>Situação-base</h3>
+              <p>Uma equipe pediu para uma IA gerar uma mensagem convidando estudantes para participar de um evento acadêmico. Porém, a resposta gerada ficou genérica, pouco motivadora e sem informações suficientes.</p>
+              <div class="quote">
+                <p><strong>Resposta original gerada pela IA:</strong></p>
+                <p>Olá, estudantes.</p>
+                <p>Participem do nosso evento acadêmico. Será uma oportunidade interessante para aprender coisas novas e desenvolver habilidades importantes. O evento contará com atividades práticas e momentos de interação. Não deixem de participar, pois será uma experiência muito boa para todos. Esperamos vocês.</p>
+              </div>
+              <p><strong>Problemas percebidos pela organização:</strong></p>
+              <div class="quote">
+                <ul>
+                  <li>A mensagem não informa claramente qual é o evento.</li>
+                  <li>Não explica por que a atividade é relevante.</li>
+                  <li>Não apresenta orientação objetiva sobre participação.</li>
+                  <li>O texto é genérico e poderia servir para qualquer evento.</li>
+                  <li>O tom é cordial, mas pouco envolvente.</li>
+                  <li>A mensagem não destaca o aspecto prático e competitivo da atividade.</li>
+                </ul>
+              </div>
+              <div class="copy-row">
+                <button class="copy-btn" onclick="copySection('copy-rodada-4')">Copiar situação-base</button>
+              </div>
+            </div>
+
+            <div class="mission">
+              <h3>Missão da equipe</h3>
+              <p>Criar um prompt que faça a IA avaliar criticamente a resposta original e gerar uma versão melhorada, mais clara, específica e adequada ao público estudantil.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="rodada-5">
+      <div class="container">
+        <article class="round">
+          <div class="round-header">
+            <div class="round-kicker">Rodada 5</div>
+            <h2>Desafio Multicritério</h2>
+            <p>Compare alternativas, avalie critérios, identifique trade-offs e recomende uma decisão justificada.</p>
+          </div>
+          <div class="round-body">
+            <div class="content-block">
+              <h3>Objetivo</h3>
+              <p>Criar um prompt robusto para uma análise estruturada de decisão, considerando vantagens, limitações, riscos e impacto.</p>
+            </div>
+
+            <div class="situation-box" id="copy-rodada-5">
+              <h3>Situação-base</h3>
+              <p>A coordenação de um evento acadêmico precisa escolher a melhor forma de realizar uma atividade prática com estudantes. Existem três alternativas possíveis, mas cada uma apresenta vantagens e limitações.</p>
+              <div class="quote">
+                <p><strong>Alternativa A — Atividade presencial em laboratório</strong></p>
+                <p>Permite melhor acompanhamento dos participantes, facilita a organização das equipes e melhora o controle do tempo. Porém, depende da disponibilidade de computadores, internet estável e reserva de espaço físico.</p>
+
+                <p><strong>Alternativa B — Atividade online síncrona</strong></p>
+                <p>Permite participação de mais alunos e reduz a necessidade de espaço físico. Porém, pode dificultar o controle da participação, aumentar problemas de comunicação e gerar desigualdade por causa da qualidade da conexão dos participantes.</p>
+
+                <p><strong>Alternativa C — Atividade híbrida</strong></p>
+                <p>Combina participação presencial e remota. Pode ampliar o alcance do evento e oferecer flexibilidade. Porém, exige maior organização, suporte técnico e regras muito claras para evitar vantagem ou desvantagem entre os participantes.</p>
+              </div>
+              <p><strong>Critérios que devem ser considerados:</strong></p>
+              <div class="quote">
+                <ul>
+                  <li>Viabilidade operacional</li>
+                  <li>Custo</li>
+                  <li>Qualidade da experiência dos participantes</li>
+                  <li>Facilidade de avaliação</li>
+                  <li>Risco técnico</li>
+                  <li>Inclusão e alcance da atividade</li>
+                </ul>
+              </div>
+              <div class="copy-row">
+                <button class="copy-btn" onclick="copySection('copy-rodada-5')">Copiar situação-base</button>
+              </div>
+            </div>
+
+            <div class="mission">
+              <h3>Missão da equipe</h3>
+              <p>Criar um prompt que faça a IA comparar as três alternativas em uma matriz multicritério, analisar os principais trade-offs e recomendar a melhor opção com justificativa.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="desempate">
+      <div class="container">
+        <article class="round">
+          <div class="round-header">
+            <div class="round-kicker">Rodada de Desempate</div>
+            <h2>Prompt de Precisão</h2>
+            <p>Crie um prompt extremamente preciso para obter uma resposta curta, correta, objetiva e sem ambiguidades.</p>
+          </div>
+          <div class="round-body">
+            <div class="content-block">
+              <h3>Objetivo</h3>
+              <p>Reduzir ambiguidades e controlar o formato da resposta da IA, mantendo precisão, clareza e responsabilidade.</p>
+            </div>
+
+            <div class="situation-box" id="copy-desempate">
+              <h3>Situação-base</h3>
+              <p>A organização precisa de uma resposta curta e precisa para explicar o que é <strong>engenharia de prompts</strong> a estudantes que nunca ouviram falar sobre o tema.</p>
+              <p>A resposta deve ser útil para uma comunicação rápida antes do início da atividade.</p>
+              <div class="quote">
+                <ul>
+                  <li>O público é formado por estudantes de diferentes cursos.</li>
+                  <li>A explicação deve ser simples, mas não infantilizada.</li>
+                  <li>A resposta não deve ser longa.</li>
+                  <li>A explicação deve deixar claro que engenharia de prompts envolve formular instruções para obter melhores respostas de sistemas de IA generativa.</li>
+                  <li>A resposta não deve exagerar dizendo que um bom prompt garante sempre uma resposta perfeita.</li>
+                  <li>A resposta deve mencionar que a pessoa ainda precisa revisar criticamente o resultado gerado pela IA.</li>
+                </ul>
+              </div>
+              <div class="copy-row">
+                <button class="copy-btn" onclick="copySection('copy-desempate')">Copiar situação-base</button>
+              </div>
+            </div>
+
+            <div class="mission">
+              <h3>Missão da equipe</h3>
+              <p>Criar um prompt que faça a IA gerar uma explicação curta, precisa e sem ambiguidades sobre o que é engenharia de prompts.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="submissao">
+      <div class="container">
+        <article class="round">
+          <div class="round-header">
+            <div class="round-kicker">Entrega das rodadas</div>
+            <h2>Submissão das respostas</h2>
+            <p>Ao final de cada rodada, envie o prompt final, a melhor resposta gerada, a IA utilizada e a justificativa curta da equipe.</p>
+          </div>
+          <div class="round-body">
+            <div class="mission">
+              <h3>Formulário de submissão</h3>
+              <p>Acesse o formulário oficial para submeter as respostas da equipe: <a href="https://forms.cloud.microsoft/r/Ku8MW1eaMs" target="_blank" rel="noopener noreferrer"><strong>submeter respostas</strong></a>.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="checklist">
+      <div class="container">
+        <div class="section-title">
+          <span>Checklist</span>
+          <h2>Antes de entregar cada rodada</h2>
+        </div>
+        <div class="cards-grid">
+          <div class="mini-card">
+            <h3>Prompt</h3>
+            <p>Incluiu papel da IA, contexto, tarefa, restrições, formato de saída e critérios de qualidade?</p>
+          </div>
+          <div class="mini-card">
+            <h3>Output</h3>
+            <p>A resposta gerada respeita o objetivo, o limite, o tom e o formato solicitados na rodada?</p>
+          </div>
+          <div class="mini-card">
+            <h3>Justificativa</h3>
+            <p>A equipe explicou em 2 ou 3 linhas por que o prompt atende bem à missão?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p><strong>Duelo de Prompts</strong> — use IA com clareza, pensamento crítico e responsabilidade.</p>
+    </div>
+  </footer>
+
+  <script>
+    function copySection(id) {
+      const el = document.getElementById(id);
+      const text = el.innerText.replace('Copiar situação-base', '').trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = el.querySelector('.copy-btn');
+        const original = btn.innerText;
+        btn.innerText = 'Copiado!';
+        setTimeout(() => btn.innerText = original, 1400);
+      }).catch(() => {
+        alert('Não foi possível copiar automaticamente. Selecione o texto manualmente.');
+      });
+    }
+  </script>
+</body>
+</html>

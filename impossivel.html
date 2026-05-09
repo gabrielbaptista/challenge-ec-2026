@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Missão Impossível | Agro em Policrise</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --bg-soft: #101d32;
+      --card: #14243d;
+      --card-2: #0f1a2b;
+      --text: #f5f7fb;
+      --muted: #b9c4d6;
+      --accent: #ffb020;
+      --accent-2: #34d399;
+      --danger: #fb7185;
+      --line: rgba(255,255,255,0.12);
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,176,32,0.18), transparent 32rem),
+        radial-gradient(circle at top right, rgba(52,211,153,0.14), transparent 28rem),
+        linear-gradient(180deg, #08111f 0%, #0a1220 50%, #060b13 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(8, 17, 31, 0.78);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+
+    .brand-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #ff7a18);
+      color: #111827;
+      box-shadow: 0 10px 30px rgba(255,176,32,0.25);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .nav a {
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 999px;
+    }
+
+    .nav a:hover {
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 72px 0 42px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #111827;
+      background: var(--accent);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.35rem, 5vw, 5.2rem);
+      line-height: 0.98;
+      margin: 0 0 20px;
+      letter-spacing: -0.06em;
+    }
+
+    .hero p {
+      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+      color: var(--muted);
+      max-width: 760px;
+      margin: 0 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #111827;
+      border-color: transparent;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, rgba(20,36,61,0.98), rgba(15,26,43,0.98));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .metric {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--accent);
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    section {
+      padding: 34px 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 3vw, 2.45rem);
+      line-height: 1.1;
+      margin: 0;
+      letter-spacing: -0.035em;
+    }
+
+    .section-title p {
+      max-width: 560px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: rgba(20,36,61,0.86);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+    }
+
+    .card ul, .card ol {
+      padding-left: 20px;
+      margin: 10px 0 0;
+    }
+
+    .problem-box {
+      background: linear-gradient(135deg, rgba(251,113,133,0.18), rgba(255,176,32,0.14));
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .problem-box h2 {
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .problem-box p {
+      font-size: clamp(1.1rem, 2vw, 1.45rem);
+      color: var(--text);
+      margin: 0;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,176,32,0.16);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .step span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .role {
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+    }
+
+    .role::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255,176,32,0.11);
+      top: -36px;
+      right: -38px;
+    }
+
+    .role .icon {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .prompt-builder {
+      background: var(--card-2);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 24px;
+    }
+
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .prompt-box {
+      background: rgba(255,255,255,0.055);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .prompt-box code {
+      display: block;
+      white-space: pre-wrap;
+      font-family: Consolas, Monaco, monospace;
+      color: #dbeafe;
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+    }
+
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 13px 14px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      color: var(--muted);
+    }
+
+    .check b {
+      color: var(--text);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(52,211,153,0.13);
+      color: var(--accent-2);
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .submission {
+      background: linear-gradient(135deg, rgba(52,211,153,0.18), rgba(255,176,32,0.14));
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .submission h2 { margin-bottom: 8px; }
+    .submission p { color: var(--muted); margin: 0; }
+
+    footer {
+      color: var(--muted);
+      padding: 34px 0 50px;
+      text-align: center;
+      border-top: 1px solid var(--line);
+      margin-top: 34px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid, .split, .prompt-grid, .submission {
+        grid-template-columns: 1fr;
+      }
+
+      .cards, .role-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 10px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .nav { display: none; }
+      .cards, .role-grid, .status-grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 48px; }
+      .hero-card { padding: 18px; }
+      .submission { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-badge">⚡</div>
+        <span>Challenge Day | Missão Impossível</span>
+      </div>
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="#cenario">Cenário</a>
+        <a href="#missao">Missão</a>
+        <a href="#areas">Áreas</a>
+        <a href="#estrategia">Estratégia</a>
+        <a href="#entrega">Entrega</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Agro em policrise</div>
+          <h1>Resolva o irresolvível.</h1>
+          <p>
+            Vocês não vão enfrentar uma única crise. Vão lidar com várias crises conectadas: clima, custo, crédito, logística, alimento, dados, energia, sustentabilidade e mercado. O cenário será o <strong>interior paulista, no eixo Ribeirão Preto–Barretos–São José do Rio Preto</strong>, uma região fortemente ligada à cana-de-açúcar, citros, milho, soja, amendoim e integração com cadeias de alimentos, energia e logística. Vocês terão 2 horas para propor uma solução possível para um cenário que parece impossível.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#missao">Ver missão do desafio</a>
+            <a class="btn btn-secondary" href="#entrega">Preparar pitch</a>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Informações rápidas do desafio">
+          <span class="tag">Informações rápidas</span>
+          <h2>Como vencer?</h2>
+          <p style="color: var(--muted); margin-top: 10px;">
+            Não existe resposta certa. Vocês precisam defender a solução mais inteligente, coerente, viável e bem comunicada.
+          </p>
+          <div class="status-grid">
+            <div class="metric">
+              <strong>4</strong>
+              <span>integrantes por equipe</span>
+            </div>
+            <div class="metric">
+              <strong>2h</strong>
+              <span>tempo total do desafio</span>
+            </div>
+            <div class="metric">
+              <strong>2–3min</strong>
+              <span>para apresentar</span>
+            </div>
+            <div class="metric">
+              <strong>4</strong>
+              <span>critérios de avaliação</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="cenario">
+      <div class="container">
+        <div class="section-title">
+          <h2>O que vocês vão enfrentar</h2>
+          <p>Problemas diferentes se conectam e amplificam seus efeitos. Uma decisão ruim em uma ponta da cadeia pode afetar produção, qualidade, custo, logística e venda no campo, na indústria e na distribuição.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <h3>📍 Região definida</h3>
+            <p>O desafio acontece em uma cadeia agroindustrial fictícia do interior de São Paulo, no eixo Ribeirão Preto–Barretos–São José do Rio Preto, com ligação a usinas, cooperativas, processadores de alimentos, transportadoras e compradores urbanos.</p>
+          </article>
+          <article class="card">
+            <h3>🌾 Produções envolvidas</h3>
+            <p>A região trabalha com cana-de-açúcar, citros, milho, soja, amendoim e pecuária integrada. Parte da produção vira açúcar, etanol, suco, óleo, farelo, ração, ingredientes industriais e alimentos processados.</p>
+          </article>
+          <article class="card">
+            <h3>🌦️ Clima menos previsível</h3>
+            <p>Secas, ondas de calor, chuvas intensas e janelas curtas de colheita dificultam o planejamento de plantio, irrigação, colheita, armazenagem e transporte.</p>
+          </article>
+          <article class="card">
+            <h3>💸 Custos pressionados</h3>
+            <p>Fertilizantes, defensivos, combustíveis, energia, manutenção, mão de obra e crédito mais caro reduzem margem e dificultam investimentos.</p>
+          </article>
+          <article class="card">
+            <h3>🚚 Logística vulnerável</h3>
+            <p>Atrasos, filas em unidades de recebimento, perdas no transporte, picos de safra e baixa integração entre sistemas prejudicam a entrega e aumentam desperdícios.</p>
+          </article>
+          <article class="card">
+            <h3>🧪 Qualidade e segurança</h3>
+            <p>A indústria precisa de matéria-prima regular, rastreável, segura e adequada ao processamento, com controle de umidade, contaminação, maturação, validade e perdas pós-colheita.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="missao">
+      <div class="container">
+        <div class="problem-box">
+          <h2>A missão impossível</h2>
+          <p>
+            Vocês precisam responder: como aumentar a resiliência, a previsibilidade e a eficiência de uma cadeia agroindustrial em cenário de policrise, usando tecnologia, gestão, automação, dados e conhecimento sobre alimentos?
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container split">
+        <article class="card">
+          <span class="tag">Situação-base</span>
+          <h2>AgroVale 2030</h2>
+          <p>
+            Vocês foram chamados para apoiar a AgroVale 2030, uma cooperativa agroindustrial fictícia localizada no interior de São Paulo, no eixo Ribeirão Preto–Barretos–São José do Rio Preto. Ela integra produtores de cana-de-açúcar, citros, milho, soja e amendoim, além de pecuaristas, armazéns, uma pequena indústria de alimentos, usinas parceiras, transportadoras, distribuidores e compradores institucionais.
+          </p>
+          <p>
+            A complexidade aumentou porque a cooperativa deixou de ser apenas uma organização de apoio ao produtor e passou a operar como uma cadeia agroindustrial conectada. O desafio de vocês é coordenar produção, qualidade, processamento, armazenagem, logística, contratos, crédito, sustentabilidade e dados em um ambiente de alta incerteza.
+          </p>
+          <ul>
+            <li><strong>No campo:</strong> produtores enfrentam seca irregular, calor extremo, pragas, alto custo de insumos e dificuldade para decidir quando plantar, irrigar, colher ou aplicar defensivos.</li>
+            <li><strong>Na indústria:</strong> a unidade de alimentos precisa receber matéria-prima com padrões mínimos de umidade, maturação, rastreabilidade e segurança, mas a qualidade varia muito entre propriedades.</li>
+            <li><strong>Na logística:</strong> caminhões chegam fora da janela prevista, gerando filas, perdas, multas contratuais e ociosidade em alguns horários.</li>
+            <li><strong>Na gestão:</strong> cada área usa uma fonte diferente de informação: planilhas, WhatsApp, sensores isolados, sistemas legados, notas fiscais, previsão do tempo e relatos manuais.</li>
+            <li><strong>No mercado:</strong> compradores exigem preço competitivo, regularidade de entrega, comprovação de origem, redução de desperdício e evidências de sustentabilidade.</li>
+          </ul>
+          <p>
+            A AgroVale 2030 precisa escolher onde agir primeiro. Ela não tem orçamento para trocar todos os sistemas, instalar sensores em todas as propriedades ou automatizar toda a cadeia. A solução de vocês deve funcionar como um primeiro passo inteligente: pequeno o suficiente para começar, mas forte o bastante para gerar aprendizado, reduzir perdas e apoiar decisões melhores.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="tag">Restrição obrigatória</span>
+          <h2>Não basta “criar um app”</h2>
+          <p>A solução precisa combinar:</p>
+          <ul>
+            <li><strong>Tecnologia:</strong> dados, IA, sistemas, automação ou sensores.</li>
+            <li><strong>Operação:</strong> como a solução funciona no campo, na indústria ou na logística.</li>
+            <li><strong>Pessoas:</strong> quem usa, quem decide e quem precisa mudar comportamento.</li>
+            <li><strong>Gestão:</strong> priorização, viabilidade, indicadores e riscos.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="areas">
+      <div class="container">
+        <div class="section-title">
+          <h2>Como cada área pode contribuir</h2>
+          <p>Mostrem integração entre cursos, não apenas uma soma de ideias separadas.</p>
+        </div>
+
+        <div class="role-grid">
+          <article class="card role">
+            <span class="icon">💻</span>
+            <h3>Engenharia de Computação</h3>
+            <ul>
+              <li>Integração de sistemas</li>
+              <li>IA e análise de dados</li>
+              <li>Dashboards e aplicativos</li>
+              <li>Rastreabilidade digital</li>
+              <li>Segurança da informação</li>
+            </ul>
+          </article>
+
+          <article class="card role">
+            <span class="icon">🤖</span>
+            <h3>Controle e Automação</h3>
+            <ul>
+              <li>Sensores e IoT</li>
+              <li>Telemetria operacional</li>
+              <li>Controle de processos</li>
+              <li>Manutenção preditiva</li>
+              <li>Eficiência energética</li>
+            </ul>
+          </article>
+
+          <article class="card role">
+            <span class="icon">🥫</span>
+            <h3>Engenharia de Alimentos</h3>
+            <ul>
+              <li>Qualidade da matéria-prima</li>
+              <li>Segurança dos alimentos</li>
+              <li>Redução de perdas</li>
+              <li>Processamento e validade</li>
+              <li>Requisitos regulatórios</li>
+            </ul>
+          </article>
+
+          <article class="card role">
+            <span class="icon">📈</span>
+            <h3>Administração</h3>
+            <ul>
+              <li>Modelo de negócio</li>
+              <li>Viabilidade econômica</li>
+              <li>Gestão de riscos</li>
+              <li>Cadeia de suprimentos</li>
+              <li>Indicadores e governança</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container split">
+        <div>
+          <div class="section-title">
+            <h2>Passo a passo da solução</h2>
+          </div>
+          <div class="timeline">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div>
+                <strong>Escolha uma dor prioritária</strong>
+                <span>Não tente resolver todo o agro. Escolha um problema crítico e bem delimitado.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div>
+                <strong>Defina quem sofre com o problema</strong>
+                <span>Produtor, cooperativa, indústria, transportador, comprador, consumidor ou gestor público?</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div>
+                <strong>Identifique dados e recursos disponíveis</strong>
+                <span>Sensores, planilhas, imagens, histórico de produção, clima, estoque, perdas, pedidos ou relatos humanos.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">4</div>
+              <div>
+                <strong>Proponha uma solução aplicável</strong>
+                <span>Explique como funciona, quem usa, como começa pequeno e como evolui.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">5</div>
+              <div>
+                <strong>Mostre impacto e limites</strong>
+                <span>Indique indicadores de resultado e reconheça riscos que ainda permanecem.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <article class="card">
+          <span class="tag">Perguntas-guia</span>
+          <h2>Antes de apresentar, responda:</h2>
+          <div class="checklist">
+            <div class="check">✅ <span><b>Problema:</b> qual dor da policrise será atacada primeiro?</span></div>
+            <div class="check">✅ <span><b>Público:</b> quem se beneficia diretamente?</span></div>
+            <div class="check">✅ <span><b>Dados:</b> quais informações serão usadas?</span></div>
+            <div class="check">✅ <span><b>Solução:</b> como funcionaria na prática?</span></div>
+            <div class="check">✅ <span><b>Viabilidade:</b> por que cabe em baixo orçamento?</span></div>
+            <div class="check">✅ <span><b>Indicadores:</b> como saber se deu certo?</span></div>
+            <div class="check">✅ <span><b>Riscos:</b> o que ainda pode dar errado?</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="estrategia">
+      <div class="container">
+        <div class="section-title">
+          <h2>Sem receita pronta</h2>
+          <p>O desafio ficou mais difícil: vocês não receberão prompts, modelos prontos ou roteiro de resposta. A equipe precisa interpretar o cenário, fazer escolhas e construir uma proposta própria.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <h3>🎯 Escolham uma batalha</h3>
+            <p>Não tentem resolver clima, crédito, logística, alimentos, rastreabilidade e sustentabilidade ao mesmo tempo. Escolham uma dor crítica e expliquem por que ela vem primeiro.</p>
+          </article>
+          <article class="card">
+            <h3>🧩 Conectem as áreas</h3>
+            <p>A solução precisa mostrar como Computação, Alimentos, Controle e Automação e Administração se complementam. Se uma área ficar isolada, a proposta perde força.</p>
+          </article>
+          <article class="card">
+            <h3>⚖️ Defendam escolhas</h3>
+            <p>Vocês terão pouco tempo e recursos limitados. Mostrem o que será feito agora, o que ficará para depois e quais riscos continuam existindo.</p>
+          </article>
+          <article class="card">
+            <h3>📉 Pensem em perdas reais</h3>
+            <p>Perdas podem aparecer no campo, no transporte, no processamento, no estoque, no uso de energia, na qualidade do alimento ou na tomada de decisão.</p>
+          </article>
+          <article class="card">
+            <h3>📊 Usem indicadores</h3>
+            <p>Uma boa ideia precisa ser medida. Proponham indicadores como redução de perdas, tempo de fila, custo por tonelada, qualidade recebida, previsibilidade de entrega ou uso de recursos.</p>
+          </article>
+          <article class="card">
+            <h3>🗣️ Preparem uma história</h3>
+            <p>O pitch precisa ter começo, meio e fim: dor, solução, funcionamento, integração entre áreas, viabilidade, impacto esperado e diferencial criativo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="entrega">
+      <div class="container split">
+        <article class="card">
+          <span class="tag">Critérios de avaliação</span>
+          <h2>O que a banca observará</h2>
+          <ul>
+            <li><strong>Criatividade:</strong> a proposta foge do óbvio e resolve o problema de forma inteligente?</li>
+            <li><strong>Coerência:</strong> problema, solução, dados, usuários e impacto fazem sentido juntos?</li>
+            <li><strong>Viabilidade:</strong> a solução poderia começar com recursos limitados?</li>
+            <li><strong>Clareza:</strong> a equipe consegue explicar bem em 2 a 3 minutos?</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="tag">Estrutura sugerida</span>
+          <h2>Pitch de 2 a 3 minutos</h2>
+          <ol>
+            <li><strong>20s:</strong> apresente a dor principal.</li>
+            <li><strong>40s:</strong> explique a solução.</li>
+            <li><strong>30s:</strong> mostre como as áreas se integram.</li>
+            <li><strong>30s:</strong> prove a viabilidade.</li>
+            <li><strong>20s:</strong> cite indicadores e riscos.</li>
+            <li><strong>20s:</strong> finalize com o diferencial criativo.</li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="submission">
+          <div>
+            <h2>Prontos para apresentar?</h2>
+            <p>Antes do pitch, revisem se a proposta responde ao problema, respeita a restrição obrigatória e pode ser explicada com clareza em até 3 minutos para uma banca multidisciplinar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Challenge Day — Missão Impossível: resolva o irresolvível.<br />
+      Soluções fortes começam com boas perguntas, escolhas claras e execução possível.
+    </div>
+  </footer>
+</body>
+</html>

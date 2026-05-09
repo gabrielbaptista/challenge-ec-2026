@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Challenge Day EC 2026 | Portal dos Desafios</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-2: #0d1b2f;
+      --surface: rgba(255, 255, 255, 0.08);
+      --surface-strong: rgba(255, 255, 255, 0.12);
+      --card: rgba(255, 255, 255, 0.095);
+      --text: #f8fafc;
+      --muted: #c8d3e2;
+      --muted-2: #95a3b7;
+      --line: rgba(255, 255, 255, 0.16);
+      --blue: #60a5fa;
+      --green: #34d399;
+      --orange: #fbbf24;
+      --pink: #fb7185;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 5%, rgba(96, 165, 250, 0.30), transparent 32rem),
+        radial-gradient(circle at 88% 8%, rgba(52, 211, 153, 0.20), transparent 28rem),
+        radial-gradient(circle at 50% 78%, rgba(251, 191, 36, 0.14), transparent 30rem),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 58%, #050914 100%);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 17, 31, 0.82);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      box-shadow: 0 12px 34px rgba(96, 165, 250, 0.24);
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .nav a {
+      padding: 8px 12px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+    }
+
+    .nav a:hover {
+      color: var(--text);
+      background: var(--surface);
+      border-color: var(--line);
+    }
+
+    .hero {
+      padding: 78px 0 42px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.16fr 0.84fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 999px;
+      color: #dbeafe;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.45rem, 6vw, 5.7rem);
+      line-height: 0.96;
+      letter-spacing: -0.07em;
+      margin: 0 0 22px;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: clamp(1.05rem, 1.8vw, 1.32rem);
+      max-width: 770px;
+      margin: 0 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 16px;
+      font-weight: 900;
+      border: 1px solid var(--line);
+      transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      color: #08111f;
+      background: linear-gradient(135deg, var(--orange), #f97316);
+      border-color: transparent;
+      box-shadow: 0 18px 42px rgba(251, 191, 36, 0.20);
+    }
+
+    .btn-secondary { background: var(--surface); color: var(--text); }
+
+    .btn-secondary:hover { background: var(--surface-strong); }
+
+    .hero-panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-panel h2 {
+      font-size: 1.45rem;
+      margin: 0 0 14px;
+      letter-spacing: -0.03em;
+    }
+
+    .quick-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .quick-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 13px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      border-radius: 18px;
+      color: var(--muted);
+    }
+
+    .quick-item b { color: var(--text); }
+
+    section { padding: 38px 0; }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 22px;
+      margin-bottom: 20px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.75rem, 3vw, 2.65rem);
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+      margin: 0;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0;
+    }
+
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .challenge-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 520px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 16px 46px rgba(0, 0, 0, 0.20);
+    }
+
+    .challenge-card::before {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      right: -90px;
+      top: -90px;
+      border-radius: 50%;
+      opacity: 0.24;
+      background: var(--card-glow, var(--blue));
+    }
+
+    .challenge-card > * { position: relative; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid var(--line);
+      color: var(--tag-color, #dbeafe);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .challenge-card h3 {
+      font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      margin: 0 0 12px;
+    }
+
+    .challenge-card p {
+      color: var(--muted);
+      margin: 0 0 16px;
+    }
+
+    .challenge-card ul {
+      color: var(--muted);
+      margin: 4px 0 20px;
+      padding-left: 20px;
+    }
+
+    .challenge-card li { margin-bottom: 7px; }
+
+    .card-actions {
+      margin-top: auto;
+      display: grid;
+      gap: 10px;
+    }
+
+    .link-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      font-weight: 900;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .link-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.14);
+    }
+
+    .journey {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .step {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.065);
+    }
+
+    .step-number {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(96, 165, 250, 0.18);
+      color: #bfdbfe;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .step h3 {
+      margin: 0 0 6px;
+      font-size: 1.02rem;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .info-band {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .panel {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.075);
+    }
+
+    .panel h2, .panel h3 { margin-top: 0; }
+    .panel p, .panel li { color: var(--muted); }
+
+    .file-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .file-list a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.055);
+      color: var(--muted);
+    }
+
+    .file-list a strong { color: var(--text); }
+
+    .footer {
+      padding: 42px 0 56px;
+      color: var(--muted-2);
+      border-top: 1px solid var(--line);
+      margin-top: 38px;
+      text-align: center;
+    }
+
+    .footer strong { color: var(--text); }
+
+    @media (max-width: 980px) {
+      .hero-grid, .info-band { grid-template-columns: 1fr; }
+      .challenge-grid { grid-template-columns: 1fr; }
+      .challenge-card { min-height: auto; }
+      .journey { grid-template-columns: 1fr 1fr; }
+      .section-title { display: block; }
+      .section-title p { margin-top: 10px; }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner { align-items: flex-start; }
+      .nav { display: none; }
+      .hero { padding-top: 52px; }
+      .journey { grid-template-columns: 1fr; }
+      .hero-actions .btn { width: 100%; }
+    }
+
+    @media print {
+      body { background: #fff; color: #111827; }
+      .topbar, .hero-actions, .card-actions { display: none; }
+      .hero-panel, .challenge-card, .step, .panel { box-shadow: none; border-color: #cbd5e1; background: #fff; }
+      .lead, .challenge-card p, .challenge-card li, .panel p, .panel li, .step p { color: #334155; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top" aria-label="Voltar ao início">
+        <span class="brand-icon">🚀</span>
+        <span>Challenge Day EC 2026</span>
+      </a>
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="#desafios">Desafios</a>
+        <a href="#jornada">Jornada</a>
+        <a href="#organizacao">Organização</a>
+        <a href="#arquivos">Arquivos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Engenharia de Computação • 2026</span>
+          <h1>Portal dos desafios do Challenge Day</h1>
+          <p class="lead">
+            Uma página única para orientar os alunos e direcionar rapidamente para os três sites do evento: Missão Impossível, Duelo de Prompts e Caça ao Tesouro das competências do futuro.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#desafios">Acessar desafios</a>
+            <a class="btn btn-secondary" href="#organizacao">Ver orientação geral</a>
+            <button class="btn btn-secondary" onclick="window.print()">Imprimir / salvar PDF</button>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Resumo do Challenge Day">
+          <h2>Como usar este portal</h2>
+          <p style="color: var(--muted); margin: 0;">
+            A organização pode projetar esta página no início do evento ou publicar o arquivo como página inicial. Cada card leva ao site específico do desafio.
+          </p>
+          <div class="quick-list">
+            <div class="quick-item"><span>🎯</span><span><b>Objetivo:</b> resolver problemas, competir com criatividade e demonstrar integração entre áreas.</span></div>
+            <div class="quick-item"><span>👥</span><span><b>Público:</b> estudantes participantes do Challenge Day de EC 2026.</span></div>
+            <div class="quick-item"><span>🔗</span><span><b>Formato:</b> três experiências independentes, reunidas em um portal único de acesso.</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="desafios">
+      <div class="container">
+        <div class="section-title">
+          <h2>Escolha o desafio</h2>
+          <p>Use os botões abaixo para abrir cada site. Os desafios foram separados para facilitar publicação, QR Codes e uso simultâneo durante o evento.</p>
+        </div>
+
+        <div class="challenge-grid">
+          <article class="challenge-card" style="--card-glow: var(--orange); --tag-color: #fde68a;">
+            <span class="tag">Desafio 1</span>
+            <h3>Missão Impossível: Agro em Policrise</h3>
+            <p>
+              As equipes enfrentam um cenário agroindustrial complexo no interior paulista, conectando clima, custos, crédito, logística, alimentos, dados, energia, sustentabilidade e mercado.
+            </p>
+            <ul>
+              <li>Foco em criatividade, coerência, viabilidade e clareza.</li>
+              <li>Pitch curto com solução aplicada a uma cadeia agroindustrial.</li>
+              <li>Integra Computação, Automação, Alimentos e Administração.</li>
+            </ul>
+            <div class="card-actions">
+              <a class="link-btn" href="impossivel.html"><span>Abrir site do desafio</span><span>→</span></a>
+            </div>
+          </article>
+
+          <article class="challenge-card" style="--card-glow: var(--blue); --tag-color: #bfdbfe;">
+            <span class="tag">Desafio 2</span>
+            <h3>Duelo de Prompts</h3>
+            <p>
+              Rodadas competitivas em que as equipes precisam criar prompts melhores, testar respostas de IA e justificar a estratégia usada para resolver cada situação-base.
+            </p>
+            <ul>
+              <li>Síntese executiva, comunicação, plano de ação e decisão multicritério.</li>
+              <li>Inclui situações-base e botão de submissão das respostas.</li>
+              <li>Estimula pensamento crítico no uso de IA generativa.</li>
+            </ul>
+            <div class="card-actions">
+              <a class="link-btn" href="duelo-prompts.html"><span>Abrir site do desafio</span><span>→</span></a>
+            </div>
+          </article>
+
+          <article class="challenge-card" style="--card-glow: var(--green); --tag-color: #bbf7d0;">
+            <span class="tag">Desafio 3</span>
+            <h3>Caça ao Tesouro: Futuro do Trabalho</h3>
+            <p>
+              Charadas ligadas às habilidades e competências do futuro do trabalho. Cada etapa direciona os alunos para uma resposta em formulário, com alternativas e definições das competências.
+            </p>
+            <ul>
+              <li>Páginas separadas para cada charada.</li>
+              <li>Preparado para gerar QR Codes por etapa.</li>
+              <li>Inclui definições das habilidades mencionadas nas respostas.</li>
+            </ul>
+            <div class="card-actions">
+              <a class="link-btn" href="caca-tesouro/index.html"><span>Abrir site do desafio</span><span>→</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="jornada">
+      <div class="container">
+        <div class="section-title">
+          <h2>Jornada sugerida para os alunos</h2>
+          <p>Esta sequência ajuda a organização a explicar o evento sem revelar respostas nem reduzir o desafio.</p>
+        </div>
+
+        <div class="journey">
+          <article class="step">
+            <div class="step-number">1</div>
+            <h3>Entender o contexto</h3>
+            <p>Os alunos acessam o portal e identificam rapidamente quais experiências fazem parte do Challenge Day.</p>
+          </article>
+          <article class="step">
+            <div class="step-number">2</div>
+            <h3>Entrar no desafio</h3>
+            <p>Cada equipe abre o site correspondente à atividade indicada pela organização ou pelo QR Code da rodada.</p>
+          </article>
+          <article class="step">
+            <div class="step-number">3</div>
+            <h3>Produzir a resposta</h3>
+            <p>A equipe analisa a situação, toma decisões, cria a entrega solicitada e prepara sua justificativa.</p>
+          </article>
+          <article class="step">
+            <div class="step-number">4</div>
+            <h3>Apresentar ou submeter</h3>
+            <p>Conforme o desafio, os alunos apresentam o pitch, submetem respostas ou avançam para a próxima charada.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="organizacao">
+      <div class="container info-band">
+        <article class="panel">
+          <h2>Orientação geral do Challenge Day</h2>
+          <p>
+            O Challenge Day deve valorizar colaboração, raciocínio aplicado, uso responsável de tecnologia e comunicação clara. As equipes devem ser incentivadas a fazer escolhas, justificar prioridades e reconhecer limites das próprias propostas.
+          </p>
+          <ul>
+            <li><strong>Para os alunos:</strong> leiam o cenário, delimitem o problema e evitem respostas genéricas.</li>
+            <li><strong>Para a banca:</strong> observem a coerência entre problema, solução, viabilidade e impacto.</li>
+            <li><strong>Para a organização:</strong> mantenham os links visíveis por QR Code e projetem este portal como página inicial.</li>
+          </ul>
+        </article>
+
+        <article class="panel" id="arquivos">
+          <h2>Mapa dos arquivos</h2>
+          <p>Mantenha esta estrutura ao publicar em um servidor, SharePoint, Teams, GitHub Pages ou qualquer hospedagem estática.</p>
+          <div class="file-list">
+            <a href="index.html"><strong>index.html</strong><span>portal principal</span></a>
+            <a href="impossivel.html"><strong>impossivel.html</strong><span>Missão Impossível</span></a>
+            <a href="duelo-prompts.html"><strong>duelo-prompts.html</strong><span>Duelo de Prompts</span></a>
+            <a href="caca-tesouro/index.html"><strong>caca-tesouro/</strong><span>Caça ao Tesouro</span></a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <strong>Challenge Day EC 2026</strong><br />
+      Tecnologia, criatividade, colaboração e pensamento crítico aplicados a desafios reais.
+    </div>
+  </footer>
+</body>
+</html>
