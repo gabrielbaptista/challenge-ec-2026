@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Síntese Executiva Relâmpago | Duelo de Prompts</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-soft: #eef3ff;
+      --primary: #1d4ed8;
+      --primary-dark: #1e3a8a;
+      --accent: #f97316;
+      --text: #172033;
+      --muted: #5f6f89;
+      --border: #d9e2f3;
+      --shadow: 0 18px 45px rgba(23, 32, 51, 0.12);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top left, #dbeafe 0, transparent 34%), var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    .topbar { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(16px); background: rgba(245, 247, 251, 0.88); border-bottom: 1px solid var(--border); }
+    .topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--primary-dark); }
+    .brand-icon { width: 36px; height: 36px; border-radius: 13px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+    .nav { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .nav a { padding: 8px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); color: var(--primary-dark); font-weight: 800; font-size: .9rem; }
+    .nav a:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .hero { padding: 58px 0 28px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: center; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--surface-soft); color: var(--primary-dark); font-weight: 800; font-size: .86rem; margin-bottom: 18px; text-transform: uppercase; letter-spacing: .05em; }
+    h1 { font-size: clamp(2.15rem, 5vw, 4.6rem); line-height: 1.02; letter-spacing: -0.05em; margin-bottom: 18px; }
+    .lead { font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--muted); max-width: 760px; margin-bottom: 26px; }
+    .hero-actions, .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; padding: 12px 18px; font-weight: 800; border: 1px solid transparent; cursor: pointer; transition: .2s ease; }
+    .button-primary { background: var(--primary); color: #fff; box-shadow: 0 12px 24px rgba(29,78,216,.25); }
+    .button-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .button-secondary { background: var(--surface); border-color: var(--border); color: var(--primary-dark); }
+    .button-secondary:hover { border-color: var(--primary); transform: translateY(-1px); }
+    .hero-card, .round, .mini-card, .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+    .hero-card h2, .panel h2 { font-size: 1.35rem; margin-bottom: 12px; }
+    .info-list { display: grid; gap: 10px; color: var(--muted); }
+    .info-list strong { color: var(--text); }
+    .section { padding: 36px 0; }
+    .section-title { margin-bottom: 20px; }
+    .section-title span { color: var(--accent); font-weight: 900; text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; }
+    .section-title h2 { margin-top: 6px; font-size: clamp(1.7rem, 3vw, 2.35rem); letter-spacing: -0.03em; }
+    .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .mini-card { box-shadow: 0 10px 28px rgba(23,32,51,.08); }
+    .mini-card h3 { font-size: 1.04rem; margin-bottom: 8px; }
+    .mini-card p, .panel p, .panel li { color: var(--muted); }
+    .round { padding: 0; overflow: hidden; box-shadow: 0 10px 28px rgba(23,32,51,.08); }
+    .round-header { padding: 26px; background: linear-gradient(135deg, #eff6ff, #ffffff 62%); border-bottom: 1px solid var(--border); }
+    .round-kicker { color: var(--primary); font-weight: 900; text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; margin-bottom: 6px; }
+    .round-header h2 { font-size: clamp(1.55rem, 3vw, 2.1rem); line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 10px; }
+    .round-header p, .round-body p, .round-body li { color: var(--muted); }
+    .round-body { padding: 26px; display: grid; gap: 22px; }
+    .content-block { border-left: 4px solid var(--primary); padding-left: 16px; }
+    .content-block h3 { margin-bottom: 10px; font-size: 1.12rem; }
+    .situation-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 18px; padding: 20px; }
+    .situation-box h3 { margin-bottom: 12px; font-size: 1.15rem; }
+    .situation-box p { margin-bottom: 12px; }
+    .situation-box ul { margin-left: 20px; }
+    .quote { background: #fff; border: 1px dashed #b8c7e6; border-radius: 14px; padding: 16px; color: var(--muted); margin: 12px 0; }
+    .mission { background: linear-gradient(135deg, #fff7ed, #ffffff); border: 1px solid #fed7aa; border-radius: 18px; padding: 18px; }
+    .mission h3 { color: #9a3412; margin-bottom: 8px; }
+    .mission p { color: #7c2d12; }
+    .copy-row { display: flex; justify-content: flex-end; margin-top: 14px; }
+    .copy-btn { border: 1px solid var(--border); background: #fff; color: var(--primary-dark); font-weight: 800; padding: 8px 12px; border-radius: 999px; cursor: pointer; }
+    .copy-btn:hover { border-color: var(--primary); }
+    .site-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .site-card { display: flex; flex-direction: column; min-height: 245px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px; box-shadow: 0 10px 28px rgba(23,32,51,.08); }
+    .site-code { display: inline-flex; align-self: flex-start; background: #eef3ff; color: var(--primary-dark); border-radius: 999px; padding: 6px 10px; font-weight: 900; font-size: .8rem; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 12px; }
+    .site-card h3 { font-size: 1.14rem; margin-bottom: 8px; }
+    .site-card p { color: var(--muted); margin-bottom: 14px; }
+    .site-card .button { margin-top: auto; align-self: flex-start; }
+    .footer { padding: 36px 0 52px; color: var(--muted); text-align: center; }
+    .footer strong { color: var(--text); }
+    @media (max-width: 900px) { .hero-grid, .cards-grid, .site-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) { .topbar-inner { align-items: flex-start; } .nav { display: none; } .hero-actions .button, .actions .button { width: 100%; } }
+    @media print { .topbar, .hero-actions, .actions, .copy-row { display: none; } body { background: #fff; } .round, .hero-card, .mini-card, .panel, .site-card { box-shadow: none; } }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="../index.html" aria-label="Voltar ao portal principal"><span class="brand-icon">⚔️</span><span>Duelo de Prompts</span></a>
+      <nav class="nav" aria-label="Navegação do duelo">
+        <a href="index.html">Sites do duelo</a>
+        <a href="https://forms.cloud.microsoft/r/Ku8MW1eaMs" target="_blank" rel="noopener noreferrer">Submeter</a>
+        <a href="../index.html">Portal Challenge Day</a>
+        
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge">Challenge Day • Site orion-47b</div>
+          <h1>Síntese Executiva Relâmpago</h1>
+          <p class="lead">Transforme informações dispersas em uma síntese executiva clara, objetiva e útil para tomada de decisão.</p>
+          <div class="hero-actions"><a class="button button-secondary" href="index.html">Ver todos os sites</a><a class="button button-primary" href="lirio-8x2.html">Próximo site →</a><a class="button button-primary" href="https://forms.cloud.microsoft/r/Ku8MW1eaMs" target="_blank" rel="noopener noreferrer">Submeter respostas</a></div>
+        </div>
+        <aside class="hero-card">
+          <h2>Rodada 1</h2>
+          <div class="info-list">
+            <p><strong>Arquivo:</strong> orion-47b.html</p>
+            <p><strong>Missão:</strong> criar o melhor prompt possível para a situação-base desta rodada.</p>
+            <p><strong>Entrega:</strong> Prompt final + melhor síntese executiva gerada + IA utilizada + justificativa curta da equipe.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <article class="round">
+          <div class="round-header">
+            <div class="round-kicker">Rodada 1</div>
+            <h2>Síntese Executiva Relâmpago</h2>
+            <p>Transforme informações dispersas em uma síntese executiva clara, objetiva e útil para tomada de decisão.</p>
+          </div>
+          <div class="round-body">
+            <div class="content-block">
+              <h3>Objetivo</h3>
+              <p>Criar um prompt capaz de orientar a IA a resumir um cenário operacional complexo, destacando problemas, riscos e prioridade recomendada.</p>
+            </div>
+            <div class="situation-box" id="situacao">
+              <h3>Situação-base</h3>
+              <p>Uma empresa de médio porte está enfrentando queda de produtividade nos últimos meses. A liderança recebeu relatos de diferentes áreas, mas as informações estão dispersas e ainda não há clareza sobre quais problemas devem ser priorizados.</p>
+        <div class="quote"><p>Nas últimas semanas, várias entregas atrasaram porque as equipes não tinham clareza sobre prioridades. Alguns colaboradores relataram excesso de reuniões e pouca objetividade nas decisões. A área comercial prometeu prazos que a equipe técnica considera difíceis de cumprir. Houve retrabalho em projetos porque os requisitos mudaram durante a execução. Também foram identificadas falhas de comunicação entre atendimento, produto e operação.</p><p>Parte da equipe afirma que há ferramentas demais sendo usadas ao mesmo tempo, dificultando o acompanhamento das tarefas. Alguns gestores dizem que os indicadores existem, mas não são acompanhados de forma regular. Há percepção de sobrecarga em pessoas-chave, enquanto outras equipes ficam aguardando direcionamento.</p><p>A diretoria quer entender rapidamente o cenário para decidir quais ações devem ser tomadas primeiro.</p></div>
+              <div class="copy-row"><button class="copy-btn" onclick="copySection('situacao')">Copiar situação-base</button></div>
+            </div>
+            <div class="mission">
+              <h3>Missão da equipe</h3>
+              <p>Criar um prompt que faça a IA produzir uma síntese executiva curta, destacando o cenário, os principais problemas, os riscos e a prioridade recomendada.</p>
+            </div>
+            <div class="content-block">
+              <h3>Checklist antes de entregar</h3>
+              <ul>
+                <li>O prompt define papel, contexto, tarefa, restrições, formato de saída e critérios de qualidade?</li>
+                <li>A resposta gerada respeita o objetivo, o limite, o tom e o formato solicitados?</li>
+                <li>A justificativa explica, em 2 ou 3 linhas, por que o prompt atende bem à missão?</li>
+              </ul>
+            </div>
+            <div class="actions"><a class="button button-secondary" href="index.html">Ver todos os sites</a><a class="button button-primary" href="lirio-8x2.html">Próximo site →</a><a class="button button-primary" href="https://forms.cloud.microsoft/r/Ku8MW1eaMs" target="_blank" rel="noopener noreferrer">Submeter respostas</a></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <script>
+    function copySection(id) {
+      const el = document.getElementById(id);
+      const text = el.innerText.replace('Copiar situação-base', '').trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = el.querySelector('.copy-btn');
+        const original = btn.innerText;
+        btn.innerText = 'Copiado!';
+        setTimeout(() => btn.innerText = original, 1400);
+      }).catch(() => alert('Não foi possível copiar automaticamente. Selecione o texto manualmente.'));
+    }
+  </script>
+
+  <footer class="footer"><div class="container"><strong>Duelo de Prompts</strong> — use IA com clareza, pensamento crítico e responsabilidade.</div></footer>
+</body>
+</html>

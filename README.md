@@ -1,16 +1,14 @@
-# Challenge Day EC 2026 — Portal dos Desafios
+# Challenge Day EC 2026 — versão com Duelo de Prompts separado
 
-Este pacote reúne a página principal do Challenge Day e os três sites dos desafios:
+Nesta versão, o desafio "Duelo de Prompts" foi dividido em páginas HTML separadas.
 
-- `index.html`: portal principal com acesso aos três desafios.
-- `impossivel.html`: Missão Impossível — Agro em Policrise.
-- `duelo-prompts.html`: Duelo de Prompts.
-- `caca-tesouro/index.html`: Caça ao Tesouro — Futuro do Trabalho.
+## Mapa dos sites do Duelo de Prompts
 
-## Como publicar
+- Rodada 1 — Síntese Executiva Relâmpago: `duelos/orion-47b.html`
+- Rodada 2 — Persona e Comunicação: `duelos/lirio-8x2.html`
+- Rodada 3 — Plano de Ação sob Restrições: `duelos/atlas-93q.html`
+- Rodada 4 — Crítica e Melhoria de Resposta: `duelos/bruma-51z.html`
+- Rodada 5 — Desafio Multicritério: `duelos/nexus-24k.html`
+- Rodada de Desempate — Prompt de Precisão: `duelos/vento-76m.html`
 
-Publique a pasta inteira em uma hospedagem estática, SharePoint, Teams, GitHub Pages ou servidor interno. O arquivo de entrada deve ser `index.html`.
-
-## Observação
-
-A pasta `caca-tesouro` contém também o arquivo `gabarito-organizacao.html`, que deve ser usado somente pela equipe organizadora.
+Formulário de submissão: https://forms.cloud.microsoft/r/Ku8MW1eaMs
