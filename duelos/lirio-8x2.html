@@ -77,12 +77,6 @@
     .copy-row { display: flex; justify-content: flex-end; margin-top: 14px; }
     .copy-btn { border: 1px solid var(--border); background: #fff; color: var(--primary-dark); font-weight: 800; padding: 8px 12px; border-radius: 999px; cursor: pointer; }
     .copy-btn:hover { border-color: var(--primary); }
-    .site-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .site-card { display: flex; flex-direction: column; min-height: 245px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px; box-shadow: 0 10px 28px rgba(23,32,51,.08); }
-    .site-code { display: inline-flex; align-self: flex-start; background: #eef3ff; color: var(--primary-dark); border-radius: 999px; padding: 6px 10px; font-weight: 900; font-size: .8rem; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 12px; }
-    .site-card h3 { font-size: 1.14rem; margin-bottom: 8px; }
-    .site-card p { color: var(--muted); margin-bottom: 14px; }
-    .site-card .button { margin-top: auto; align-self: flex-start; }
     .footer { padding: 36px 0 52px; color: var(--muted); text-align: center; }
     .footer strong { color: var(--text); }
     @media (max-width: 900px) { .hero-grid, .cards-grid, .site-grid { grid-template-columns: 1fr; } }
@@ -94,9 +88,6 @@
   <header class="topbar">
     <div class="container topbar-inner">
       <div class="brand" aria-label="Duelo de Prompts"><span class="brand-icon">⚔️</span><span>Duelo de Prompts</span></div>
-      <nav class="nav" aria-label="Ação da rodada">
-        <a href="https://forms.cloud.microsoft/r/Ku8MW1eaMs" target="_blank" rel="noopener noreferrer">Submeter</a>
-      </nav>
     </div>
   </header>
 
@@ -104,7 +95,7 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <div class="badge">Challenge Day • Site lirio-8x2</div>
+          <div class="badge">Challenge Day • Rodada do Duelo</div>
           <h1>Persona e Comunicação</h1>
           <p class="lead">Adapte uma mensagem para um público específico, considerando tom, linguagem, intenção e clareza.</p>
           <div class="hero-actions"><a class="button button-primary" href="https://forms.cloud.microsoft/r/Ku8MW1eaMs" target="_blank" rel="noopener noreferrer">Submeter respostas</a><button class="button button-secondary" onclick="window.print()">Imprimir / salvar em PDF</button></div>
@@ -112,7 +103,6 @@
         <aside class="hero-card">
           <h2>Rodada 2</h2>
           <div class="info-list">
-            <p><strong>Arquivo:</strong> lirio-8x2.html</p>
             <p><strong>Missão:</strong> criar o melhor prompt possível para a situação-base desta rodada.</p>
             <p><strong>Entrega:</strong> Prompt final + mensagem institucional gerada + IA utilizada + justificativa curta da equipe.</p>
           </div>

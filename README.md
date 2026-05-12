@@ -1,15 +1,12 @@
 # Challenge Day EC 2026
 
-Pacote atualizado para publicação do portal principal do Challenge Day.
+Pacote estático do Challenge Day EC 2026.
 
-## Estrutura
+## Importante sobre o Duelo de Prompts
 
-- `index.html`: portal principal público.
-- `impossivel.html`: site do desafio Missão Impossível.
-- `caca-tesouro/`: páginas da Caça ao Tesouro.
-- `duelos/`: páginas isoladas das rodadas do Duelo de Prompts.
-- `duelos/painel-ceres-58q.html`: painel restrito para organizadores com os links de todas as rodadas. Não publicar para os alunos.
+As páginas individuais das rodadas ficam em `duelos/`, mas não possuem links entre si.
+Apenas os organizadores devem acessar o painel `duelos/painel-ceres-58q.html` para copiar os links/gerar QR Codes e liberar cada rodada no momento correto.
 
-## Observação importante
+## Publicação
 
-As páginas individuais do Duelo de Prompts não possuem links entre si. Os participantes devem receber apenas o QR Code/link da rodada ativa.
+Publique a pasta completa em uma hospedagem estática, SharePoint, Teams, GitHub Pages ou servidor equivalente, mantendo a estrutura de diretórios.
