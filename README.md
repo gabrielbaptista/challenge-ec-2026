@@ -1,14 +1,15 @@
-# Challenge Day EC 2026 — versão com Duelo de Prompts separado
+# Challenge Day EC 2026
 
-Nesta versão, o desafio "Duelo de Prompts" foi dividido em páginas HTML separadas.
+Pacote atualizado para publicação do portal principal do Challenge Day.
 
-## Mapa dos sites do Duelo de Prompts
+## Estrutura
 
-- Rodada 1 — Síntese Executiva Relâmpago: `duelos/orion-47b.html`
-- Rodada 2 — Persona e Comunicação: `duelos/lirio-8x2.html`
-- Rodada 3 — Plano de Ação sob Restrições: `duelos/atlas-93q.html`
-- Rodada 4 — Crítica e Melhoria de Resposta: `duelos/bruma-51z.html`
-- Rodada 5 — Desafio Multicritério: `duelos/nexus-24k.html`
-- Rodada de Desempate — Prompt de Precisão: `duelos/vento-76m.html`
+- `index.html`: portal principal público.
+- `impossivel.html`: site do desafio Missão Impossível.
+- `caca-tesouro/`: páginas da Caça ao Tesouro.
+- `duelos/`: páginas isoladas das rodadas do Duelo de Prompts.
+- `duelos/painel-ceres-58q.html`: painel restrito para organizadores com os links de todas as rodadas. Não publicar para os alunos.
 
-Formulário de submissão: https://forms.cloud.microsoft/r/Ku8MW1eaMs
+## Observação importante
+
+As páginas individuais do Duelo de Prompts não possuem links entre si. Os participantes devem receber apenas o QR Code/link da rodada ativa.

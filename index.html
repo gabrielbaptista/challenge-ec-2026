@@ -322,6 +322,9 @@
       transition: transform 0.15s ease, background 0.15s ease;
     }
 
+    .link-btn.disabled { opacity: .72; cursor: default; background: rgba(255,255,255,.08); color: var(--muted); }
+    .link-btn.disabled:hover { transform: none; }
+
     .link-btn:hover {
       transform: translateY(-2px);
       background: rgba(255,255,255,0.14);
@@ -386,7 +389,7 @@
       margin-top: 12px;
     }
 
-    .file-list a {
+    .file-list a, .file-list span {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -509,15 +512,15 @@
             <span class="tag">Desafio 2</span>
             <h3>Duelo de Prompts</h3>
             <p>
-              Rodadas competitivas em sites separados, com nomes aleatórios de arquivo, para facilitar QR Codes por etapa e liberação gradual durante a atividade.
+              Rodadas competitivas em que as equipes criam prompts melhores, testam respostas de IA e justificam a estratégia usada. O link de cada rodada deve ser liberado pela organização apenas no momento certo.
             </p>
             <ul>
               <li>Síntese executiva, comunicação, plano de ação e decisão multicritério.</li>
-              <li>Inclui situações-base, páginas individuais por rodada e botão de submissão das respostas.</li>
+              <li>Inclui situações-base e botão de submissão das respostas.</li>
               <li>Estimula pensamento crítico no uso de IA generativa.</li>
             </ul>
             <div class="card-actions">
-              <a class="link-btn" href="duelos/index.html"><span>Abrir site do desafio</span><span>→</span></a>
+              <span class="link-btn disabled" aria-disabled="true"><span>Acesso por QR Code da rodada</span><span>🔒</span></span>
             </div>
           </article>
 
@@ -592,7 +595,7 @@
           <div class="file-list">
             <a href="index.html"><strong>index.html</strong><span>portal principal</span></a>
             <a href="impossivel.html"><strong>impossivel.html</strong><span>Missão Impossível</span></a>
-            <a href="duelos/index.html"><strong>duelos/index.html</strong><span>Duelo de Prompts dividido em sites</span></a>
+            <span><strong>duelos/</strong><span>Duelo de Prompts — acesso liberado pela organização</span></span>
             <a href="caca-tesouro/index.html"><strong>caca-tesouro/</strong><span>Caça ao Tesouro</span></a>
           </div>
         </article>
